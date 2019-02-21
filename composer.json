@@ -1,0 +1,21 @@
+{
+    "name": "amadden/coding_challenge",
+    "type": "standard",
+    "description": "Uploads users from csv to a postgres database",
+
+    "autoload": {
+        "psr-4": {
+            "amadden\\": "src/"
+        }
+    },
+
+    "autoload-dev": {
+        "psr-4": {
+            "amadden\\": "tests/"
+        }
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    }
+}
