@@ -5,14 +5,34 @@ namespace amadden;
 
 use PHPUnit\Framework\TestCase;
 
-final class userUploadTest extends TestCase {
-    public function testCalcAddition(): void {
-        $calc = new Calculator();
-        $this->assertEquals(5, $calc->addTwoNumbers(2.0, 3.0));
+require dirname(__FILE__).'./../src/user_upload.php';
+
+final class user_upload_test extends TestCase {
+    
+    public function testNamesAreFormattedCorrectly(): void {
+        $this->assertEquals("Jonathon", formatName("JoNAThOn"));
+        $this->assertEquals("Kevin", formatName("kevin"));
+        $this->assertEquals("Sam!!", formatName("SAm!!"));
     }
 
-    public function testUnitUploadIsConnected(): void {
-        $useruploader = new user_upload();
-        $this->assertTrue($useruploader->exists());
+    public function testEmailsAreFormattedCorrectly(): void {
+        $this->assertEquals("jonathon@test.com", formatEmail("JoNAThOn@Test.CoM"));
+    }
+
+    public function testEmailValidation(): void {
+        // valid emails
+        $this->assertTrue(isEmailValid("jonathan@test.com"));
+        $this->assertTrue(isEmailValid("jonathan@test.com.au"));
+        $this->assertTrue(isEmailValid("jona123than@test.com"));
+        $this->assertTrue(isEmailValid("foo@bar.com.au.test.foo.bar"));
+        $this->assertTrue(isEmailValid("foo@bar@test.com"));
+        
+        // invalid emails
+        $this->assertFalse(isEmailValid("foo@bar"));
+        $this->assertFalse(isEmailValid("xxxx@asdf@asdf"));
+        $this->assertFalse(isEmailValid("@bar.com"));
+        $this->assertFalse(isEmailValid("foo@.com"));
+        $this->assertFalse(isEmailValid("foo@bar."));
+
     }
 }
