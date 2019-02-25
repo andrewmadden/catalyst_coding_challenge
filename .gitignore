@@ -1,6 +1,9 @@
 # composer dependencies
 vendor/
 
+#composer install script
+composer.phar
+
 # phpunit
 .phpunit.result.cache
 

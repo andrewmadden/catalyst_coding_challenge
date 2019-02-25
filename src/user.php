@@ -8,9 +8,9 @@ class user {
     private $name, $surname, $email;
 
     function __construct(string $name, string $surname, string $email) {
-        $this->$name = $this->formatName($name);
-        $this->$surname = $this->formatName($name);
-        $this->$email = $this->formatEmail($email);
+        $this->name = $this->formatName($name);
+        $this->surname = $this->formatName($surname);
+        $this->email = $this->formatEmail($email);
     }
 
     /**
