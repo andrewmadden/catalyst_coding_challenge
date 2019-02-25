@@ -1,2 +1,5 @@
 # composer dependencies
-/vendor/*
+vendor/
+
+# phpunit
+.phpunit.result.cache
