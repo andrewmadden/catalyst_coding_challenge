@@ -1,11 +1,11 @@
 <?php
-declare(strict_types=1);
+// declare(strict_types=1);
 
-namespace amadden;
+// namespace amadden;
 
-use PHPUnit\Framework\TestCase;
+// use PHPUnit\Framework\TestCase;
 
-require dirname(__FILE__).'./../src/user_upload.php';
+// require dirname(__FILE__).'./../src/user_upload.php';
 
 // final class user_upload_test extends TestCase {
 

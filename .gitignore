@@ -1,7 +1,7 @@
 # composer dependencies
 vendor/
 
-#composer install script
+# composer install script
 composer.phar
 
 # phpunit

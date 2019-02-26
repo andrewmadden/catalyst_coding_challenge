@@ -38,7 +38,7 @@ class user {
     }
 
     /**
-     * Validates that the input email is consistent with modern email standard formats
+     * Validates that the input email is consistent with modern email standard formats.
      *
      * @param string $email
      * @return boolean
@@ -49,5 +49,18 @@ class user {
         $pattern = "/[^@]+@[^\.]+\..+/";
 
         return preg_match($pattern, $email) === 1;
+    }
+
+    /**
+     * Validates that the input email is consistent with modern email standard formats.
+     *
+     * @return boolean
+     */
+    function hasValidEmail(): bool {
+        // email validation is contentious on what to include and exclude. Included the edge
+        // case in the brief but any email validator using regex should not be relied upon for security.
+        $pattern = "/[^@]+@[^\.]+\..+/";
+
+        return preg_match($pattern, $this->email) === 1;
     }
 }

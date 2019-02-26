@@ -14,7 +14,9 @@ require_once 'csv_utility.php';
 require_once 'user.php';
 require_once 'database_connection.php';
 
-$shortopts = "u:p:h:";
+// valid options
+// included an option for the database name in case it does not match the user name
+$shortopts = "u:p:h:d:";
 $longopts = [
     "file:",
     "create_table",
@@ -22,24 +24,44 @@ $longopts = [
     "help",
 ];
 
-$errorMessage = "error: type --help for more information\n";
+$errorMessage = "Error: Type --help for more information\n";
 
-$fileNotFoundMessage = "error: file not found. type --help for more information\n";
+$fileNotFoundMessage = "Error: File not found. Type --help for more information\n";
 
-$helpMessage = "help text\n";
+$helpMessage = "help text\n"; //TODO
+
+$dryRunSuccessMessage = "Success: Dry run successful. File data extracted and connected to database.\n";
+
+$createTableSuccessMessage = "Success: A table 'user' was created successfully.\n";
+
+$usersInsertedSuccessMessage = "Success: New users inserted into database from file.";
 
 $options = getopt($shortopts, $longopts);
 
-// if help option is used, show help menu and abort script
+// If help option is used, show help menu and abort script
 if (array_key_exists("help",$options)) {
     echo $helpMessage;
     exit;
 }
 
-// if valid options are not included, show error message and abort script
-// it is assumed that even if the create_table flag is included, an accurate filename is still included.
+// If create_table option is used, attempt to connect to database and create user table then abort script
+$requiredKeys = array_flip(["create_table","u","p","h"]);
+// Checks whether all required options are present in the $options array
+if (count(array_intersect_key($requiredKeys,$options)) == count($requiredKeys)) {
+    if (array_key_exists("d",$options)) {
+        $conn = new database_connection($options["u"], $options["p"], $options["h"], $options["d"]);        
+    } else {
+        $conn = new database_connection($options["u"], $options["p"], $options["h"]);
+    }
+    $conn->createUserTable();
+    // success message
+    echo $createTableSuccessMessage;
+    exit;
+}
+
+// If valid options are not included for file and database, show error message and abort script
 $requiredKeys = array_flip(["file","u","p","h"]);
-// This checks whether all required options are present in the $options array
+// Checks whether all required options are present in the $options array
 if (count(array_intersect_key($requiredKeys,$options)) != count($requiredKeys)) {
     echo $errorMessage;
     exit;
@@ -73,5 +95,27 @@ foreach ($userArray as $userData) {
 }
 
 // Open connection to database
+if (array_key_exists("d",$options)) {
+    $conn = new database_connection($options["u"], $options["p"], $options["h"], $options["d"]);        
+} else {
+    $conn = new database_connection($options["u"], $options["p"], $options["h"]);
+}
+// In case the table 'user' does not yet exist
+$conn->createUserTable();
 
-print_r($users);
+// If the dry_run option is included, abort script with a success message
+if (array_key_exists("dry_run",$options)) {
+    echo $dryRunSuccessMessage;
+    exit;
+}
+
+// Insert each user with a legal email into the database
+foreach ($users as $user) {
+    if ($user->hasValidEmail()) {
+        $conn->insertUser($user);
+    } else {
+        echo $user->email . " is not a legal email.\n";
+    }
+}
+
+echo $usersInsertedSuccessMessage;

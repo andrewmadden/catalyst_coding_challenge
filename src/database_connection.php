@@ -10,8 +10,12 @@ class database_connection {
         $this->conn = $this->makeConnection($user, $password, $host);
     }
 
-    private function makeConnection(string $user, string $password, string $host) {
-        $connectionString = "host=".$host." user=".$user." password=".$password;
+    private function makeConnection(string $user, string $password, string $host, string $database = null) {
+        if ($database == null) {
+            $connectionString = "host=".$host." user=".$user." password=".$password;
+        } else {            
+            $connectionString = "host=".$host." user=".$user." password=".$password." dbname=".$database;
+        }
         pg_connect($connectionString) or die('Could not connect to database: ' . pg_last_error());
     }
 

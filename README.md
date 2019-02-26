@@ -46,9 +46,22 @@ You may also have to update the autoload files. To do this type:
 php composer.phar du
 ```
 
+## Accessing a PostgreSQL database
+
+In order for the script to access a postgresql database, please ensure that your php includes the required functions. Use the terminal command: 
+```
+sudo apt install php7.0-pgsql
+```
+Note that if you use a different version of php, you may need to reflect that in the command.
+
 ## Data File
 
-The input CSV file is assumed to have a *header row* that contains the field name of each column. 
+The input CSV file is assumed to have a *header row* that contains the field name of each column. For example:
+```
+name, surname, email
+andrew, john, andrewj@test.com
+sarah, jane, sj@test.com
+```
 
 ## Error cases
 
