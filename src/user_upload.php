@@ -8,8 +8,11 @@ together. It will trigger a compiler error. See https://bugs.php.net/bug.php?id=
 
 namespace amadden;
 
+use Exception;
+
 require_once 'csv_utility.php';
 require_once 'user.php';
+require_once 'database_connection.php';
 
 $shortopts = "u:p:h:";
 $longopts = [
@@ -55,8 +58,12 @@ if ($fileOutput === false) {
 // Convert CSV data into associative arrays
 $headers = csv_utility::transformCSVHeaderIntoArray($fileOutput[0]);
 $userArray = [];
-for ($i=1; $i<count($fileOutput); $i++) {
-    $userArray[] = csv_utility::transformCSVRowIntoAssocArray($headers,$fileOutput[$i]);
+try {
+    for ($i=1; $i<count($fileOutput); $i++) {
+        $userArray[] = csv_utility::transformCSVRowIntoAssocArray($headers,$fileOutput[$i]);
+    }
+} catch (Exception $e) {
+    echo "Caught exception: " . $e->getMessage() . "\n";
 }
 
 // Convert arrays into formatted user objects
@@ -64,5 +71,7 @@ $users = [];
 foreach ($userArray as $userData) {
     $users[] = new user($userData["name"],$userData["surname"],$userData["email"]);
 }
+
+// Open connection to database
 
 print_r($users);
