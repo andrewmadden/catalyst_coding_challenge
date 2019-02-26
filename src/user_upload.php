@@ -24,17 +24,17 @@ $longopts = [
     "help",
 ];
 
+$helpMessage = "help text\n"; //TODO
+
 $errorMessage = "Error: Type --help for more information\n";
 
 $fileNotFoundMessage = "Error: File not found. Type --help for more information\n";
-
-$helpMessage = "help text\n"; //TODO
 
 $dryRunSuccessMessage = "Success: Dry run successful. File data extracted and connected to database.\n";
 
 $createTableSuccessMessage = "Success: A table 'user' was created successfully.\n";
 
-$usersInsertedSuccessMessage = "Success: New users inserted into database from file.";
+$usersInsertedSuccessMessage = "Success: New users inserted into database from file.\n";
 
 $options = getopt($shortopts, $longopts);
 
@@ -103,6 +103,9 @@ if (array_key_exists("d",$options)) {
 // In case the table 'user' does not yet exist
 $conn->createUserTable();
 
+// Get email of users already in database to ensure no duplicates are entered.
+$existingEmails = $conn->getUserEmails();
+
 // If the dry_run option is included, abort script with a success message
 if (array_key_exists("dry_run",$options)) {
     echo $dryRunSuccessMessage;
@@ -111,10 +114,12 @@ if (array_key_exists("dry_run",$options)) {
 
 // Insert each user with a legal email into the database
 foreach ($users as $user) {
-    if ($user->hasValidEmail()) {
+    if ( $user->hasValidEmail() && (in_array($user->email, $existingEmails) == false) ) {
         $conn->insertUser($user);
+        // Add email to list of current user emails
+        $existingEmails[] = $user->email;
     } else {
-        echo $user->email . " is not a legal email.\n";
+        echo $user->email . " is not a legal email or already exists in database.\n";
     }
 }
 

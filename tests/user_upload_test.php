@@ -1,17 +1,18 @@
 <?php
-// declare(strict_types=1);
+declare(strict_types=1);
 
-// namespace amadden;
+namespace amadden;
 
-// use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 // require dirname(__FILE__).'./../src/user_upload.php';
 
-// final class user_upload_test extends TestCase {
+final class user_upload_test extends TestCase {
 
-//     public function testHelpOptionShowsHelpMessage(): void {
-//         $output = `require './../src/user_upload.php'`;
+    public function testExistingEmailCheck(): void {
+        $existingEmails = ["email"=>"foo@bar.com"];
 
-//         $this->assertEquals("help text", $output);
-//     }
-// }
+        $this->assertTrue(in_array("foo@bar.com",$existingEmails));
+        $this->assertFalse(!in_array("foo@bar.com",$existingEmails));
+    }
+}

@@ -41,9 +41,14 @@ composer update
 ```
 This will download all dependencies included in the composer.json file. 
 
-You may also have to update the autoload files. To do this type:
+You may also have to update the autoload files. 
+If locally installed use the command:
 ```
 php composer.phar du
+```
+If globally installed use the command:
+```
+composer du
 ```
 
 ## Accessing a PostgreSQL database
