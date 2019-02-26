@@ -24,7 +24,17 @@ $longopts = [
     "help",
 ];
 
-$helpMessage = "help text\n"; //TODO
+$helpMessage = "Usage: user_upload.php [options] [-u] <username> [-p] <password> [-h] <host> [--file] <filename>
+    user_upload.php [options] [-u] <username> [-p] <password> [-h] <host> [-d] <dbname> [--file] <filename>
+    user_upload.php [--create_table] [-u] <username> [-p] <password> [-h] <host> [-d] <dbname>
+    
+    -h <host>           PostgreSQL host
+    -u <username>       PostgreSQL username
+    -p <password>       PostgreSQL password
+    -d <dbname>         PostgreSQL database name
+    --file <filename>   The location of a CSV file with header row
+    --dry_run           The script will execute without inserting any data in database
+    --create_table      A PostgreSQL table 'users' will be created if it does not exist"; 
 
 $errorMessage = "Error: Type --help for more information\n";
 

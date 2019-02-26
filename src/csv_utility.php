@@ -22,7 +22,7 @@ class csv_utility {
             $value = trim($value);
         }
 
-        // TODO: need to check that both arrays are the same size, otherwise throw error
+        // Check that both arrays are the same size, otherwise throw error
         if (count($inputHeaders) != count($values)) {
             throw new Exception('Data row does not match pattern of document. Ensure document has header row and all rows include values for each header.');
         }

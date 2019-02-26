@@ -23,21 +23,21 @@ final class user_test extends TestCase {
     }
 
     public function testEmailValidation(): void {
-        $user = new user("andrew", "madden", "andrew.madden@test.com");
+        $user = new user("john", "smith", "andrew.madden@test.com");
 
         // valid emails
-        $this->assertTrue($user->isEmailValid("jonathan@test.com"));
-        $this->assertTrue($user->isEmailValid("jonathan@test.com.au"));
-        $this->assertTrue($user->isEmailValid("jona123than@test.com"));
-        $this->assertTrue($user->isEmailValid("foo@bar.com.au.test.foo.bar"));
-        $this->assertTrue($user->isEmailValid("foo@bar@test.com"));
+        $this->assertTrue((new user("j", "s", "johns@test.com"))->hasValidEmail());
+        $this->assertTrue((new user("j", "s", "jonathan@test.com.au"))->hasValidEmail());
+        $this->assertTrue((new user("j", "s", "jona123than@test.com"))->hasValidEmail());
+        $this->assertTrue((new user("j", "s", "foo@bar.com.au.test.foo.bar"))->hasValidEmail());
+        $this->assertTrue((new user("j", "s", "foo@bar@test.com"))->hasValidEmail());
         
         // invalid emails
-        $this->assertFalse($user->isEmailValid("foo@bar"));
-        $this->assertFalse($user->isEmailValid("xxxx@asdf@asdf"));
-        $this->assertFalse($user->isEmailValid("@bar.com"));
-        $this->assertFalse($user->isEmailValid("foo@.com"));
-        $this->assertFalse($user->isEmailValid("foo@bar."));
+        $this->assertFalse((new user("j", "s", "foo@bar"))->hasValidEmail());
+        $this->assertFalse((new user("j", "s", "xxxx@asdf@asdf"))->hasValidEmail());
+        $this->assertFalse((new user("j", "s", "@bar.com"))->hasValidEmail());
+        $this->assertFalse((new user("j", "s", "foo@.com"))->hasValidEmail());
+        $this->assertFalse((new user("j", "s", "foo@bar."))->hasValidEmail());
 
     }
 }
