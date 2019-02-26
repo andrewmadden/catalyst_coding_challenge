@@ -98,6 +98,8 @@ composer du
 
 ## Running the Tests
 
+The latest version of PHPUnit requires PHP7.2, and the previous version only supports PHP7.1. If you are running an older version of PHP, you have have issues attempting to run the unit tests.
+
 Once you've installed the PHPUnit dependency, you can run the unit tests by typing the following command into the console.
 ```
 php vendor/bin/phpunit
