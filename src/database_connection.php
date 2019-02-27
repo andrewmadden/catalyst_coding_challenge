@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace amadden;
 
+use Exception;
+
 /**
  * database_connection is responsible for connecting to, and querying a database
  * containing user data.
@@ -64,8 +66,11 @@ class database_connection {
      */
     public function insertUser(user $user) {
         $query = "INSERT INTO users (email, name, surname) VALUES ($1, $2, $3)";
-        $result = @pg_query_params($query, [$user->email, $user->name, $user->surname])
-            or die('Could not insert user with email: ' . $user->email . ". " . \pg_last_error());
+        $result = pg_query_params($query, [$user->email, $user->name, $user->surname]);
+            // or die('Could not insert user with email: ' . $user->email . ". " . \pg_last_error());
+        if (!$result) {
+            throw new Exception('Could not insert user with email: ' . $user->email);
+        }
     }
 
     /**

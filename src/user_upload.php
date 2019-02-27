@@ -34,7 +34,7 @@ $helpMessage = "Usage: user_upload.php [options] [-u] <username> [-p] <password>
     -d <dbname>         PostgreSQL database name
     --file <filename>   The location of a CSV file with header row
     --dry_run           The script will execute without inserting any data in database
-    --create_table      A PostgreSQL table 'users' will be created if it does not exist"; 
+    --create_table      A PostgreSQL table 'users' will be created if it does not exist\n"; 
 
 $errorMessage = "Error: Type --help for more information\n";
 
@@ -124,12 +124,16 @@ if (array_key_exists("dry_run",$options)) {
 
 // Insert each user with a legal email into the database
 foreach ($users as $user) {
-    if ( $user->hasValidEmail() && (in_array($user->email, $existingEmails) == false) ) {
-        $conn->insertUser($user);
-        // Add email to list of current user emails
-        $existingEmails[] = $user->email;
-    } else {
-        echo $user->email . " is not a legal email or already exists in database.\n";
+    try {
+        if ( $user->hasValidEmail() && (in_array($user->email, $existingEmails) == false) ) {
+            $conn->insertUser($user);
+            // Add email to list of current user emails
+            $existingEmails[] = $user->email;
+        } else {
+            echo $user->email . " is not a legal email or already exists in database.\n";
+        }
+    } catch (Exception $e) {
+        echo "Caught exception: " . $e->getMessage() . "\n";
     }
 }
 

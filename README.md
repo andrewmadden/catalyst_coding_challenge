@@ -104,4 +104,4 @@ Once you've installed the PHPUnit dependency, you can run the unit tests by typi
 ```
 php vendor/bin/phpunit
 ```
-The test files are in the test/ directory. Look up https://phpunit.readthedocs.io/en/7.0/ for more information about configuring the project.
+The test files are in the tests/ directory. Look up https://phpunit.readthedocs.io/en/7.0/ for more information about configuring the project.
